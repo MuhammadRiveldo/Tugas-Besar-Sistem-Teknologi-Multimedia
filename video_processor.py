@@ -20,7 +20,7 @@ def draw_options(frame, options):
     return frame
 
 def draw_result(frame, hero_img_path, correct=True):
-    icon_path = "assets/ui/correct.png" if correct else "assets/ui/wrong.png"
+    icon_path = "assets/ui/correct.jpg" if correct else "assets/ui/wrong.jpg"
     icon = cv2.imread(icon_path)
 
     icon = cv2.resize(icon, (120,120))

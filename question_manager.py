@@ -3,18 +3,18 @@ import random
 heroes = [
     {
         "name": "Alucard",
-        "voice": "assets/voices/alucard.mp3",
-        "image": "assets/heroes/alucard.png"
+        "voice": "assets/voices/Alucard.mp3",
+        "image": "assets/heroes/Alucard.jpg"
     },
     {
-        "name": "Lancelot",
-        "voice": "assets/voices/lancelot.mp3",
-        "image": "assets/heroes/lancelot.png"
+        "name": "Angela",
+        "voice": "assets/voices/Angela.mp3",
+        "image": "assets/heroes/Angela.jpg"
     },
     {
-        "name": "Fanny",
-        "voice": "assets/voices/fanny.mp3",
-        "image": "assets/heroes/fanny.png"
+        "name": "Akai",
+        "voice": "assets/voices/Akai.mp3",
+        "image": "assets/heroes/Akai.jpg"
     }
 ]
 
