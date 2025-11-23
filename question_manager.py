@@ -15,6 +15,41 @@ heroes = [
         "name": "Akai",
         "voice": "assets/voices/Akai.mp3",
         "image": "assets/heroes/Akai.jpg"
+    },
+    {
+        "name": "Alpha",
+        "voice": "assets/voices/Alpha.mp3",
+        "image": "assets/heroes/Alpha.jpg"
+    },
+    {
+        "name": "Argus",
+        "voice": "assets/voices/Argus.mp3",
+        "image": "assets/heroes/Argus.jpg"
+    },
+    {
+        "name": "Balmond",
+        "voice": "assets/voices/Balmond.mp3",
+        "image": "assets/heroes/Balmond.jpg"
+    },
+    {
+        "name": "Cecilion",
+        "voice": "assets/voices/Cecilion.mp3",
+        "image": "assets/heroes/Cecilion.jpg"
+    },
+    {
+        "name": "Karina",
+        "voice": "assets/voices/Karina.mp3",
+        "image": "assets/heroes/Karina.jpg"
+    },
+    {
+        "name": "Popol Kupa",
+        "voice": "assets/voices/Popol Kupa.mp3",
+        "image": "assets/heroes/Popol Kupa.jpg"
+    },
+    {
+        "name": "Yuzhong",
+        "voice": "assets/voices/Yuzhong.mp3",
+        "image": "assets/heroes/Yuzhong.jpg"
     }
 ]
 
