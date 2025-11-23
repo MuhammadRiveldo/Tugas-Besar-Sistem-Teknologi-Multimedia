@@ -11,7 +11,9 @@ cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 writer = cv2.VideoWriter("results/output.mp4", fourcc, 20, (640,480))
 
-while True: # Game loop utama
+score = 0
+
+while score < 5: # Game loop utama
     # === AMBIL SOAL BARU ===
     correct, options, correct_answer = get_question()
 
@@ -26,7 +28,7 @@ while True: # Game loop utama
         
         frame = cv2.flip(frame, 1)
         frame_display = frame.copy()
-        frame_display = draw_options(frame_display, options)
+        frame_display = draw_options(frame_display, options, score)
         cv2.imshow("Guess The Hero!", frame_display)
 
         # Tampilkan frame selama 1ms dan cek apakah user ingin keluar
@@ -62,7 +64,7 @@ while True: # Game loop utama
         frame_display = frame.copy()
 
         # Gambar opsi
-        frame_display = draw_options(frame_display, options)
+        frame_display = draw_options(frame_display, options, score)
 
         # Deteksi gerakan kepala jika belum ada jawaban
         if user_answer is None:
@@ -79,6 +81,11 @@ while True: # Game loop utama
         # Jika sudah ada jawaban, tampilkan hasilnya
         if user_answer is not None:
             correct_bool = (user_answer == correct_answer)
+            if 'answered' not in locals():
+                if correct_bool:
+                    score += 1
+                answered = True
+
             frame_display = draw_result(frame_display, correct["image"], correct_bool)
 
             # Tampilkan hasil selama 3 detik
@@ -93,6 +100,8 @@ while True: # Game loop utama
     
     if cv2.waitKey(1) & 0xFF == 27:
         break
+
+    del locals()['answered']
 
 cap.release()
 writer.release()
