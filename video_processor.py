@@ -37,3 +37,16 @@ def draw_result(frame, hero_img_path, correct=True):
                 cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 4)
 
     return frame
+
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+def detect_face(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    
+    if len(faces) > 0:
+        (x, y, w, h) = faces[0]
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        return frame, (x, y, w, h)
+    
+    return frame, None
