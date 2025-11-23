@@ -1,6 +1,6 @@
 import cv2
 
-def draw_options(frame, options):
+def draw_options(frame, options, score):
     cv2.putText(frame, "Guess The ML Hero!",
                 (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
                 1.1, (255,255,255), 3)
@@ -16,6 +16,11 @@ def draw_options(frame, options):
     cv2.putText(frame, "Move LEFT for A | Move RIGHT for B",
                 (60, 470), cv2.FONT_HERSHEY_SIMPLEX,
                 0.8, (255,255,255), 2)
+
+    # Tampilkan skor
+    cv2.putText(frame, f"Score: {score}/5",
+                (500, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                1, (255, 255, 255), 2)
 
     return frame
 
