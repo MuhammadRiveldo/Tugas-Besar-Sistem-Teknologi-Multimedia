@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from question_manager import get_question
-from audio_manager import play_audio
+from audio_manager import play_audio, stop_audio
 from head_movement import detect_head_direction
 from video_processor import draw_options, draw_result, detect_face
 from utils import countdown
@@ -18,8 +18,30 @@ while True: # Game loop utama
     print("Soal:", correct["name"])
     print("Options:", options)
 
-    # === PLAY SUARA HERO ===
-    play_audio(correct["voice"])
+    # Loop untuk menampilkan kamera sebelum suara diputar
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        frame = cv2.flip(frame, 1)
+        frame_display = frame.copy()
+        frame_display = draw_options(frame_display, options)
+        cv2.imshow("Guess The Hero!", frame_display)
+
+        # Tampilkan frame selama 1ms dan cek apakah user ingin keluar
+        if cv2.waitKey(1) & 0xFF == 27:
+            cap.release()
+            writer.release()
+            cv2.destroyAllWindows()
+            exit()
+        
+        # Beri jeda singkat agar window sempat muncul
+        if cv2.waitKey(100) & 0xFF != 27:
+             break
+
+    # === PLAY SUARA HERO (Non-Blocking) ===
+    play_audio(correct["voice"], block=False)
 
     print("Silakan tebak dengan gerak kepala...")
 
@@ -48,15 +70,11 @@ while True: # Game loop utama
             if direction == "LEFT":
                 user_answer = "A"
                 answer_time = cv2.getTickCount()
-                # Putar suara hanya sekali saat jawaban benar pertama kali
-                if user_answer == correct_answer:
-                    play_audio(correct["voice"])
+                stop_audio()
             elif direction == "RIGHT":
                 user_answer = "B"
                 answer_time = cv2.getTickCount()
-                # Putar suara hanya sekali saat jawaban benar pertama kali
-                if user_answer == correct_answer:
-                    play_audio(correct["voice"])
+                stop_audio()
 
         # Jika sudah ada jawaban, tampilkan hasilnya
         if user_answer is not None:
