@@ -1,21 +1,17 @@
-import mediapipe as mp
-
-mp_face = mp.solutions.face_mesh.FaceMesh(static_image_mode=False)
-
-def detect_head_direction(frame):
-    results = mp_face.process(frame)
-
-    if not results.multi_face_landmarks:
+def detect_head_direction(frame, face_coords):
+    if face_coords is None:
         return "NONE"
 
-    # Ambil landmark hidung
-    lm = results.multi_face_landmarks[0].landmark
-    nose_x = lm[1].x  # titik hidung
+    (x, y, w, h) = face_coords
+    face_center_x = x + w / 2
+    frame_center_x = frame.shape[1] / 2
 
-    # threshold kiri-kanan
-    if nose_x < 0.43:
+    # Tentukan ambang batas pergerakan
+    threshold = 50  # bisa disesuaikan
+
+    if face_center_x < frame_center_x - threshold:
         return "LEFT"
-    elif nose_x > 0.57:
+    elif face_center_x > frame_center_x + threshold:
         return "RIGHT"
     else:
         return "CENTER"
