@@ -8,9 +8,6 @@ from utils import countdown
 
 cap = cv2.VideoCapture(0)
 
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-writer = cv2.VideoWriter("results/output.mp4", fourcc, 20, (640,480))
-
 score = 0
 
 while score < 5: # Game loop utama
@@ -34,7 +31,6 @@ while score < 5: # Game loop utama
         # Tampilkan frame selama 1ms dan cek apakah user ingin keluar
         if cv2.waitKey(1) & 0xFF == 27:
             cap.release()
-            writer.release()
             cv2.destroyAllWindows()
             exit()
         
@@ -92,7 +88,6 @@ while score < 5: # Game loop utama
             if (cv2.getTickCount() - answer_time) / cv2.getTickFrequency() > 3:
                 break # Lanjut ke soal berikutnya
 
-        writer.write(frame_display)
         cv2.imshow("Guess The Hero!", frame_display)
 
         if cv2.waitKey(1) & 0xFF == 27:
@@ -101,8 +96,8 @@ while score < 5: # Game loop utama
     if cv2.waitKey(1) & 0xFF == 27:
         break
 
-    del locals()['answered']
+    if 'answered' in locals():
+        del locals()['answered']
 
 cap.release()
-writer.release()
 cv2.destroyAllWindows()

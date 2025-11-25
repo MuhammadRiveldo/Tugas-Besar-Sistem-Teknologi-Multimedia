@@ -1,7 +1,7 @@
 import cv2
 
 def draw_options(frame, options, score):
-    cv2.putText(frame, "Guess The ML Hero!",
+    cv2.putText(frame, "Tebak Suara Hero Ini!",
                 (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
                 1.1, (255,255,255), 3)
 
