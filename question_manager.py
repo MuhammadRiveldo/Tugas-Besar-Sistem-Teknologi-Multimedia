@@ -53,8 +53,16 @@ heroes = [
     }
 ]
 
+available_heroes = heroes.copy()
+random.shuffle(available_heroes)
+
 def get_question():
-    correct = random.choice(heroes)
+    global available_heroes
+    if not available_heroes:
+        available_heroes = heroes.copy()
+        random.shuffle(available_heroes)
+
+    correct = available_heroes.pop()
     wrong = random.choice([h for h in heroes if h != correct])
 
     # Random posisi benar (A atau B)
