@@ -13,6 +13,7 @@ face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_con
 
 cap = cv2.VideoCapture(0)
 score = 0
+question_count = 0
 should_exit = False
 
 # === COUNTDOWN SEBELUM MULAI ===
@@ -50,7 +51,7 @@ for i in range(5, 0, -1):
         break
 
 
-while not should_exit and score < 5:  # Game loop utama
+while not should_exit and question_count < 5:  # Game loop utama
     # === AMBIL SOAL BARU ===
     correct, options, correct_answer = get_question()
 
@@ -138,8 +139,52 @@ while not should_exit and score < 5:  # Game loop utama
             should_exit = True
             break
 
+    question_count += 1
     if should_exit:
         break
+
+# === TAMPILKAN LAYAR AKHIR ===
+while not should_exit:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    frame = cv2.flip(frame, 1)
+    h, w, _ = frame.shape
+
+    # Tentukan pesan berdasarkan skor
+    if score <= 3:
+        final_message = "Yay!!!, try again."
+    elif score == 4:
+        final_message = "Good Job!"
+    else: # score == 5
+        final_message = "Perfect!!!"
+
+    # Tampilkan skor akhir
+    score_text = f"Your Score: {score}/5"
+    score_text_size, _ = cv2.getTextSize(score_text, cv2.FONT_HERSHEY_DUPLEX, 2, 3)
+    score_text_x = (w - score_text_size[0]) // 2
+    score_text_y = (h // 2) - 50
+    cv2.putText(frame, score_text, (score_text_x, score_text_y), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 255, 255), 3)
+
+    # Tampilkan pesan akhir
+    message_text_size, _ = cv2.getTextSize(final_message, cv2.FONT_HERSHEY_DUPLEX, 1.5, 2)
+    message_text_x = (w - message_text_size[0]) // 2
+    message_text_y = score_text_y + 100
+    cv2.putText(frame, final_message, (message_text_x, message_text_y), cv2.FONT_HERSHEY_DUPLEX, 1.5, (255, 255, 0), 2)
+
+    # Tampilkan instruksi keluar
+    exit_text = "Press 'Esc' to exit"
+    exit_text_size, _ = cv2.getTextSize(exit_text, cv2.FONT_HERSHEY_DUPLEX, 0.8, 1)
+    exit_text_x = (w - exit_text_size[0]) // 2
+    exit_text_y = h - 50
+    cv2.putText(frame, exit_text, (exit_text_x, exit_text_y), cv2.FONT_HERSHEY_DUPLEX, 0.8, (255, 255, 255), 1)
+
+    cv2.imshow("Guess The Hero!", frame)
+
+    if cv2.waitKey(1) & 0xFF == 27: # Tombol Esc
+        break
+
 
 face_mesh.close()
 cap.release()
