@@ -5,6 +5,7 @@ from audio_manager import play_audio, stop_audio
 from tilt_detector import get_head_tilt_direction
 from ui_overlay import draw_tiktok_style_overlay
 from video_processor import draw_result
+import time
 
 # Inisialisasi MediaPipe Face Mesh
 mp_face_mesh = mp.solutions.face_mesh
@@ -12,6 +13,31 @@ face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_con
 
 cap = cv2.VideoCapture(0)
 score = 0
+
+# === COUNTDOWN SEBELUM MULAI ===
+for i in range(3, 0, -1):
+    start_time = time.time()
+    while time.time() - start_time < 1:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        frame = cv2.flip(frame, 1)
+        h, w, _ = frame.shape
+
+        # Tampilkan teks countdown
+        text = str(i)
+        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 5, 10)
+        text_x = (w - text_size[0]) // 2
+        text_y = (h + text_size[1]) // 2
+        cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 255), 10)
+
+        cv2.imshow("Guess The Hero!", frame)
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+    if cv2.waitKey(1) & 0xFF == 27:
+        break
+
 
 while score < 5:  # Game loop utama
     # === AMBIL SOAL BARU ===
