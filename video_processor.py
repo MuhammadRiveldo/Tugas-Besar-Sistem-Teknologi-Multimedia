@@ -17,6 +17,6 @@ def draw_result(frame, hero_img_path, correct=True):
     color = (0,255,0) if correct else (255,0,0) # Warna RGB (Hijau, Merah)
 
     cv2.putText(frame, text, (180,470),
-                cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 4)
+                cv2.FONT_HERSHEY_DUPLEX, 1.5, color, 4)
 
     return frame
