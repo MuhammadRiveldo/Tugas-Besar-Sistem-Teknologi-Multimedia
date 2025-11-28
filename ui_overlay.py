@@ -34,7 +34,7 @@ def rounded_box(img, text, center, size, box_color, text_color, radius=20, thick
 #  Main Overlay Function
 # ==============================
 
-def draw_tiktok_style_overlay(frame, face_landmarks, question="The first iPhone was released in 2007.", optionA="TRUE", optionB="FALSE"):
+def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB):
     h, w, _ = frame.shape
 
     # Ambil landmark kepala (misal: dahi) pakai titik 10
@@ -51,7 +51,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question="The first iPhone 
         text=question,
         center=(head_x, question_y),
         size=(450, 90),
-        box_color=(0, 0, 255),
+        box_color=(255, 0, 0),
         text_color=(255, 255, 255),
         radius=25
     )
@@ -61,7 +61,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question="The first iPhone 
         frame,
         text=optionA,
         center=(head_x - 120, option_y),
-        size=(180, 80),
+        size=(200, 80),
         box_color=(0, 255, 0),
         text_color=(0, 0, 0),
         radius=20
@@ -72,9 +72,9 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question="The first iPhone 
         frame,
         text=optionB,
         center=(head_x + 120, option_y),
-        size=(180, 80),
-        box_color=(0, 0, 255),
-        text_color=(255, 255, 255),
+        size=(200, 80),
+        box_color=(0, 255, 0),
+        text_color=(0, 0, 0),
         radius=20
     )
 

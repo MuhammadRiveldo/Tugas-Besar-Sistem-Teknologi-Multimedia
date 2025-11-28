@@ -34,13 +34,14 @@ while score < 5:  # Game loop utama
         if not ret:
             break
 
+        # Konversi ke RGB di awal
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame = cv2.flip(frame, 1)  # Cerminkan frame agar seperti cermin
         frame_display = frame.copy()
         h, w, c = frame.shape
 
-        # Konversi warna BGR ke RGB
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = face_mesh.process(rgb_frame)
+        # Frame sudah dalam format RGB
+        results = face_mesh.process(frame)
 
         face_landmarks = None
         if results.multi_face_landmarks:
@@ -70,7 +71,7 @@ while score < 5:  # Game loop utama
         # Jika tidak ada wajah, tampilkan pesan
         else:
             cv2.putText(frame_display, "Wajah tidak terdeteksi", (50, 100),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
 
 
         # Jika sudah ada jawaban, tampilkan hasilnya
@@ -92,7 +93,9 @@ while score < 5:  # Game loop utama
         cv2.putText(frame_display, f"Score: {score}/5", (w - 200, 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
-        cv2.imshow("Guess The Hero!", frame_display)
+        # Konversi kembali ke BGR untuk ditampilkan oleh OpenCV
+        display_bgr = cv2.cvtColor(frame_display, cv2.COLOR_RGB2BGR)
+        cv2.imshow("Guess The Hero!", display_bgr)
 
         if cv2.waitKey(1) & 0xFF == 27:
             break
