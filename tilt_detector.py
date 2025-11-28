@@ -15,8 +15,8 @@ def get_head_tilt_direction(face_landmarks):
     tilt_threshold = 15
 
     if angle > tilt_threshold:
-        return "LEFT"
+        return "RIGHT"  # Tukar: Sudut positif berarti miring ke kanan
     elif angle < -tilt_threshold:
-        return "RIGHT"
+        return "LEFT"   # Tukar: Sudut negatif berarti miring ke kiri
     else:
         return "CENTER"
