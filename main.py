@@ -16,7 +16,7 @@ score = 0
 should_exit = False
 
 # === COUNTDOWN SEBELUM MULAI ===
-for i in range(3, 0, -1):
+for i in range(5, 0, -1):
     start_time = time.time()
     while time.time() - start_time < 1:
         ret, frame = cap.read()
@@ -103,7 +103,11 @@ while not should_exit and score < 5:  # Game loop utama
 
         # Jika tidak ada wajah, tampilkan pesan
         else:
-            cv2.putText(frame_display, "Wajah tidak terdeteksi", (50, 100),
+            text = "Wajah tidak terdeteksi"
+            text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 1, 2)
+            text_x = (w - text_size[0]) // 2
+            text_y = (h + text_size[1]) // 2
+            cv2.putText(frame_display, text, (text_x, text_y),
                         cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 0), 2)
 
 

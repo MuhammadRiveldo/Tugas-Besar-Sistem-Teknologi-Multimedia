@@ -50,7 +50,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
         frame,
         text=question,
         center=(head_x, question_y),
-        size=(450, 90),
+        size=(400, 70),
         box_color=(255, 0, 0),
         text_color=(255, 255, 255),
         radius=25
