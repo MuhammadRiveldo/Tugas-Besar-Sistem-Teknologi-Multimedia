@@ -13,6 +13,7 @@ face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_con
 
 cap = cv2.VideoCapture(0)
 score = 0
+should_exit = False
 
 # === COUNTDOWN SEBELUM MULAI ===
 for i in range(3, 0, -1):
@@ -20,6 +21,7 @@ for i in range(3, 0, -1):
     while time.time() - start_time < 1:
         ret, frame = cap.read()
         if not ret:
+            should_exit = True
             break
 
         frame = cv2.flip(frame, 1)
@@ -27,28 +29,33 @@ for i in range(3, 0, -1):
 
         # Tampilkan teks countdown
         text = str(i)
-        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 5, 10)
+        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 2.5, 5)
         text_x = (w - text_size[0]) // 2
         text_y = (h + text_size[1]) // 2
-        cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 255), 10)
+        cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_DUPLEX, 2.5, (255, 255, 255), 5)
+
+        # Tampilkan tips cara bermain
+        tip_text = "Miringkan kepala ke kiri atau kanan untuk menjawab"
+        tip_text_size, _ = cv2.getTextSize(tip_text, cv2.FONT_HERSHEY_DUPLEX, 0.7, 2)
+        tip_text_x = (w - tip_text_size[0]) // 2
+        tip_text_y = text_y + 70  # Di bawah angka countdown
+        cv2.putText(frame, tip_text, (tip_text_x, tip_text_y), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255), 2)
+
 
         cv2.imshow("Guess The Hero!", frame)
-        if cv2.waitKey(1) & 0xFF == 27:
+        if cv2.waitKey(1) & 0xFF == 27: # Tombol Esc
+            should_exit = True
             break
-    if cv2.waitKey(1) & 0xFF == 27:
+    if should_exit:
         break
 
 
-while score < 5:  # Game loop utama
+while not should_exit and score < 5:  # Game loop utama
     # === AMBIL SOAL BARU ===
     correct, options, correct_answer = get_question()
 
-    print("Soal:", correct["name"])
-    print("Options:", options)
-
     # === PLAY SUARA HERO (Non-Blocking) ===
     play_audio(correct["voice"], block=False)
-    print("Silakan tebak dengan memiringkan kepala...")
 
     user_answer = None
     answer_time = None
@@ -97,7 +104,7 @@ while score < 5:  # Game loop utama
         # Jika tidak ada wajah, tampilkan pesan
         else:
             cv2.putText(frame_display, "Wajah tidak terdeteksi", (50, 100),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+                        cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 0), 2)
 
 
         # Jika sudah ada jawaban, tampilkan hasilnya
@@ -117,16 +124,17 @@ while score < 5:  # Game loop utama
 
         # Tampilkan skor
         cv2.putText(frame_display, f"Score: {score}/5", (w - 200, 50),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+                    cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
 
         # Konversi kembali ke BGR untuk ditampilkan oleh OpenCV
         display_bgr = cv2.cvtColor(frame_display, cv2.COLOR_RGB2BGR)
         cv2.imshow("Guess The Hero!", display_bgr)
 
-        if cv2.waitKey(1) & 0xFF == 27:
+        if cv2.waitKey(1) & 0xFF == 27: # Tombol Esc
+            should_exit = True
             break
 
-    if cv2.waitKey(1) & 0xFF == 27:
+    if should_exit:
         break
 
 face_mesh.close()

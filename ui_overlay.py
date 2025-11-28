@@ -25,7 +25,7 @@ def rounded_box(img, text, center, size, box_color, text_color, radius=20, thick
 
     # Add text
     cv2.putText(img, text, (x1 + 20, y + 10),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.9, text_color, 2)
+                cv2.FONT_HERSHEY_DUPLEX, 0.8, text_color, 2)
 
     return img
 
@@ -63,7 +63,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
         center=(head_x - 120, option_y),
         size=(200, 80),
         box_color=(0, 255, 0),
-        text_color=(0, 0, 0),
+        text_color=(255, 255, 255),
         radius=20
     )
 
@@ -74,7 +74,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
         center=(head_x + 120, option_y),
         size=(200, 80),
         box_color=(0, 255, 0),
-        text_color=(0, 0, 0),
+        text_color=(255, 255, 255),
         radius=20
     )
 
