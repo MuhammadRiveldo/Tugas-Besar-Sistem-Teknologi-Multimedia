@@ -17,6 +17,7 @@ question_count = 0
 should_exit = False
 
 # === COUNTDOWN SEBELUM MULAI ===
+play_audio("assets/sfx/countdown.mp3", block=False)
 for i in range(5, 0, -1):
     start_time = time.time()
     while time.time() - start_time < 1:
@@ -55,12 +56,14 @@ while not should_exit and question_count < 5:  # Game loop utama
     # === AMBIL SOAL BARU ===
     correct, options, correct_answer = get_question()
 
-    # === PLAY SUARA HERO (Non-Blocking) ===
-    play_audio(correct["voice"], block=False)
+    # === SUARA HERO TIDAK LANGSUNG DIPUTAR ===
+    # play_audio(correct["voice"], block=False) # Dipindahkan
 
     user_answer = None
     answer_time = None
     answered = False
+    face_detected_first_time = False
+    face_was_previously_detected = False
 
     # Loop untuk mendeteksi jawaban
     while True:
@@ -79,6 +82,22 @@ while not should_exit and question_count < 5:  # Game loop utama
 
         face_landmarks = None
         if results.multi_face_landmarks:
+            if not face_detected_first_time:
+                # Putar SFX dulu, lalu suara hero menggunakan callback on_finish
+                # Ini tidak akan memblokir loop utama, sehingga tidak ada lag.
+                play_audio(
+                    "assets/sfx/show.mp3",
+                    block=False,
+                    on_finish=lambda: play_audio(correct["voice"], block=False)
+                )
+                face_detected_first_time = True
+            
+            # Hapus pemutaran sfx show2 agar tidak memotong suara hero
+            # elif not face_was_previously_detected:
+            #     play_audio("assets/sfx/show2.mp3", block=False)
+            
+            face_was_previously_detected = True
+
             face_landmarks = results.multi_face_landmarks[0]
 
             # Gambar UI TikTok Style
@@ -104,6 +123,7 @@ while not should_exit and question_count < 5:  # Game loop utama
 
         # Jika tidak ada wajah, tampilkan pesan
         else:
+            face_was_previously_detected = False
             text = "Wajah tidak terdeteksi"
             text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 1, 2)
             text_x = (w - text_size[0]) // 2
@@ -118,6 +138,9 @@ while not should_exit and question_count < 5:  # Game loop utama
             if not answered:
                 if correct_bool:
                     score += 1
+                    play_audio("assets/sfx/correct.mp3", block=False)
+                else:
+                    play_audio("assets/sfx/wrong.mp3", block=False)
                 answered = True
 
             # Tampilkan feedback benar/salah
@@ -144,6 +167,7 @@ while not should_exit and question_count < 5:  # Game loop utama
         break
 
 # === TAMPILKAN LAYAR AKHIR ===
+final_sound_played = False
 while not should_exit:
     ret, frame = cap.read()
     if not ret:
@@ -155,10 +179,17 @@ while not should_exit:
     # Tentukan pesan berdasarkan skor
     if score <= 3:
         final_message = "Yay!!!, try again."
+        sfx_path = "assets/sfx/loser.mp3"
     elif score == 4:
         final_message = "Good Job!"
+        sfx_path = "assets/sfx/good job.mp3"
     else: # score == 5
         final_message = "Perfect!!!"
+        sfx_path = "assets/sfx/perfect.mp3"
+
+    if not final_sound_played:
+        play_audio(sfx_path, block=False)
+        final_sound_played = True
 
     # Tampilkan skor akhir
     score_text = f"Your Score: {score}/5"
