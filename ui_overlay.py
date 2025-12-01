@@ -28,21 +28,48 @@ def rounded_box(img, text, center, size, box_color, text_color, radius=20, thick
                 cv2.FONT_HERSHEY_DUPLEX, 0.8, text_color, 2)
 
     if icon_path:
-        icon = cv2.imread(icon_path)
+        # Muat ikon dengan alpha channel (transparansi)
+        icon = cv2.imread(icon_path, cv2.IMREAD_UNCHANGED)
         if icon is not None:
             # Pastikan frame cukup besar untuk menampung ikon
             if img.shape[0] > 30 and img.shape[1] > 30:
-                icon = cv2.cvtColor(icon, cv2.COLOR_BGR2RGB)
                 icon = cv2.resize(icon, (30, 30))
                 
-                # Hitung posisi ikon
-                icon_y = y - 15
-                icon_x = x2 - 40
+                # Hitung posisi ikon di pojok kanan bawah kotak
+                padding = 5
+                icon_y = y2 - 30 - padding # y2 adalah tepi bawah kotak
+                icon_x = x2 - 30 - padding # x2 adalah tepi kanan kotak
 
                 # Pastikan ikon tidak digambar di luar batas frame
                 if icon_y >= 0 and icon_y + 30 <= img.shape[0] and \
                    icon_x >= 0 and icon_x + 30 <= img.shape[1]:
-                    img[icon_y:icon_y+30, icon_x:icon_x+30] = icon
+                    
+                    # Ambil Region of Interest (ROI) dari frame utama
+                    roi = img[icon_y:icon_y+30, icon_x:icon_x+30]
+
+                    # Cek apakah ikon punya alpha channel
+                    if icon.shape[2] == 4:
+                        # Pisahkan channel warna dan alpha
+                        icon_rgb = icon[:,:,:3]
+                        alpha = icon[:,:,3]
+
+                        # Konversi icon ke format warna frame (RGB)
+                        icon_rgb = cv2.cvtColor(icon_rgb, cv2.COLOR_BGR2RGB)
+
+                        # Buat mask dari alpha channel
+                        mask = cv2.merge([alpha, alpha, alpha])
+                        mask_inv = cv2.bitwise_not(mask)
+
+                        # Hilangkan area ikon dari ROI dan gabungkan dengan ikon
+                        bg = cv2.bitwise_and(roi, mask_inv)
+                        fg = cv2.bitwise_and(icon_rgb, mask)
+                        combined = cv2.add(bg, fg)
+                        
+                        img[icon_y:icon_y+30, icon_x:icon_x+30] = combined
+                    else:
+                        # Jika tidak ada alpha, gambar seperti biasa (fallback)
+                        icon = cv2.cvtColor(icon, cv2.COLOR_BGR2RGB)
+                        img[icon_y:icon_y+30, icon_x:icon_x+30] = icon
         else:
             print(f"⚠️ Gagal memuat gambar ikon: {icon_path}")
 
@@ -71,7 +98,7 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB,
         text="Guess The Hero",
         center=(head_x, question_y - 50), # Position it above the main question
         size=(250, 40),
-        box_color=(0, 0, 0), # Black background
+        box_color=(0, 255, 0), 
         text_color=(255, 255, 255),
         radius=15
     )
@@ -79,8 +106,8 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB,
         frame,
         text=question,
         center=(head_x, question_y),
-        size=(400, 70),
-        box_color=(220, 40, 40), # Reddish color
+        size=(400, 55),
+        box_color=(191, 0, 255),
         text_color=(255, 255, 255),
         radius=25
     )
@@ -88,20 +115,20 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB,
     # Determine icon for options based on user answer
     icon_a = None
     icon_b = None
-    box_color_a = (40, 180, 40) # Greenish
-    box_color_b = (40, 180, 40) # Greenish
+    box_color_a = (0, 0, 255)
+    box_color_b = (255, 0, 0)
 
     if user_answer is not None:
         if user_answer == correct_answer:
             if user_answer == "A":
-                icon_a = "assets/ui/correct.jpg"
+                icon_a = "assets/ui/correct.png"
             else: # user_answer == "B"
-                icon_b = "assets/ui/correct.jpg"
+                icon_b = "assets/ui/correct.png"
         else: # wrong answer
             if user_answer == "A":
-                icon_a = "assets/ui/wrong.jpg"
+                icon_a = "assets/ui/wrong.png"
             else: # user_answer == "B"
-                icon_b = "assets/ui/wrong.jpg"
+                icon_b = "assets/ui/wrong.png"
 
 
     # ======== DRAW OPTION A (LEFT) ========
