@@ -106,7 +106,9 @@ while not should_exit and question_count < 5:  # Game loop utama
                 face_landmarks=face_landmarks,
                 question=f"Suara Siapakah Hero ini?",
                 optionA=options['A'],
-                optionB=options['B']
+                optionB=options['B'],
+                user_answer=user_answer,
+                correct_answer=correct_answer
             )
 
             # Deteksi gerakan kepala jika belum ada jawaban
@@ -143,7 +145,7 @@ while not should_exit and question_count < 5:  # Game loop utama
                     play_audio("assets/sfx/wrong.mp3", block=False)
                 answered = True
 
-            # Tampilkan feedback benar/salah
+            # Tampilkan feedback (gambar hero)
             frame_display = draw_result(frame_display, correct["image"], correct_bool)
 
             # Tampilkan hasil selama 3 detik
