@@ -1,5 +1,6 @@
 import random
 
+# Database hero (nama, file suara, file gambar)
 heroes = [
     {
         "name": "Alucard",
@@ -53,19 +54,24 @@ heroes = [
     }
 ]
 
+# Daftar hero yang tersedia untuk pertanyaan, diacak
 available_heroes = heroes.copy()
 random.shuffle(available_heroes)
 
 def get_question():
+    """Mengambil satu soal acak, memastikan tidak ada pengulangan hingga semua hero muncul."""
     global available_heroes
+    # Jika hero sudah habis, reset dan acak kembali
     if not available_heroes:
         available_heroes = heroes.copy()
         random.shuffle(available_heroes)
 
+    # Ambil satu hero sebagai jawaban benar
     correct = available_heroes.pop()
+    # Ambil hero lain secara acak sebagai jawaban salah
     wrong = random.choice([h for h in heroes if h != correct])
 
-    # Random posisi benar (A atau B)
+    # Acak posisi pilihan A dan B
     if random.random() > 0.5:
         options = {"A": correct["name"], "B": wrong["name"]}
         correct_answer = "A"
