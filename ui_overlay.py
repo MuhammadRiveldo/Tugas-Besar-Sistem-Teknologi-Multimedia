@@ -6,7 +6,7 @@ import mediapipe as mp
 #  Utility: Draw Rounded Rectangle
 # ==============================
 
-def rounded_box(img, text, center, size, box_color, text_color, radius=20, thickness=-1):
+def rounded_box(img, text, center, size, box_color, text_color, radius=20, thickness=-1, icon_path=None):
     w, h = size
     x, y = center
 
@@ -27,6 +27,25 @@ def rounded_box(img, text, center, size, box_color, text_color, radius=20, thick
     cv2.putText(img, text, (x1 + 20, y + 10),
                 cv2.FONT_HERSHEY_DUPLEX, 0.8, text_color, 2)
 
+    if icon_path:
+        icon = cv2.imread(icon_path)
+        if icon is not None:
+            # Pastikan frame cukup besar untuk menampung ikon
+            if img.shape[0] > 30 and img.shape[1] > 30:
+                icon = cv2.cvtColor(icon, cv2.COLOR_BGR2RGB)
+                icon = cv2.resize(icon, (30, 30))
+                
+                # Hitung posisi ikon
+                icon_y = y - 15
+                icon_x = x2 - 40
+
+                # Pastikan ikon tidak digambar di luar batas frame
+                if icon_y >= 0 and icon_y + 30 <= img.shape[0] and \
+                   icon_x >= 0 and icon_x + 30 <= img.shape[1]:
+                    img[icon_y:icon_y+30, icon_x:icon_x+30] = icon
+        else:
+            print(f"⚠️ Gagal memuat gambar ikon: {icon_path}")
+
     return img
 
 
@@ -34,7 +53,7 @@ def rounded_box(img, text, center, size, box_color, text_color, radius=20, thick
 #  Main Overlay Function
 # ==============================
 
-def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB):
+def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB, user_answer=None, correct_answer=None):
     h, w, _ = frame.shape
 
     # Ambil landmark kepala (misal: dahi) pakai titik 10
@@ -46,15 +65,44 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
     option_y = head_y - 100   # Naikkan posisi pilihan jawaban
 
     # ======== DRAW QUESTION BOX ========
+    # Create a smaller box for the "Guess The Hero" text, similar to "True/False"
+    rounded_box(
+        frame,
+        text="Guess The Hero",
+        center=(head_x, question_y - 50), # Position it above the main question
+        size=(250, 40),
+        box_color=(0, 0, 0), # Black background
+        text_color=(255, 255, 255),
+        radius=15
+    )
     rounded_box(
         frame,
         text=question,
         center=(head_x, question_y),
         size=(400, 70),
-        box_color=(255, 0, 0),
+        box_color=(220, 40, 40), # Reddish color
         text_color=(255, 255, 255),
         radius=25
     )
+
+    # Determine icon for options based on user answer
+    icon_a = None
+    icon_b = None
+    box_color_a = (40, 180, 40) # Greenish
+    box_color_b = (40, 180, 40) # Greenish
+
+    if user_answer is not None:
+        if user_answer == correct_answer:
+            if user_answer == "A":
+                icon_a = "assets/ui/correct.jpg"
+            else: # user_answer == "B"
+                icon_b = "assets/ui/correct.jpg"
+        else: # wrong answer
+            if user_answer == "A":
+                icon_a = "assets/ui/wrong.jpg"
+            else: # user_answer == "B"
+                icon_b = "assets/ui/wrong.jpg"
+
 
     # ======== DRAW OPTION A (LEFT) ========
     rounded_box(
@@ -62,9 +110,10 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
         text=optionA,
         center=(head_x - 120, option_y),
         size=(200, 80),
-        box_color=(0, 255, 0),
+        box_color=box_color_a,
         text_color=(255, 255, 255),
-        radius=20
+        radius=20,
+        icon_path=icon_a
     )
 
     # ======== DRAW OPTION B (RIGHT) ========
@@ -73,9 +122,10 @@ def draw_tiktok_style_overlay(frame, face_landmarks, question, optionA, optionB)
         text=optionB,
         center=(head_x + 120, option_y),
         size=(200, 80),
-        box_color=(0, 255, 0),
+        box_color=box_color_b,
         text_color=(255, 255, 255),
-        radius=20
+        radius=20,
+        icon_path=icon_b
     )
 
     return frame
