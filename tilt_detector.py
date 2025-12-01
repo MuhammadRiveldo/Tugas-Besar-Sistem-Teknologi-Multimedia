@@ -1,22 +1,23 @@
 import math
 
 def get_head_tilt_direction(face_landmarks):
+    """Mendeteksi kemiringan kepala (kiri, kanan, atau tengah) dari landmark wajah."""
     if not face_landmarks:
         return "CENTER"
 
-    # Get the coordinates of the left and right eye landmarks
-    p1 = face_landmarks.landmark[33]  # Left eye
-    p2 = face_landmarks.landmark[263] # Right eye
+    # Titik referensi pada mata kiri dan kanan
+    p1 = face_landmarks.landmark[33]  # Mata kiri
+    p2 = face_landmarks.landmark[263] # Mata kanan
 
-    # Calculate the angle of the line connecting the two eye landmarks
+    # Hitung sudut garis yang menghubungkan kedua mata
     angle = math.degrees(math.atan2(p2.y - p1.y, p2.x - p1.x))
 
-    # Define the thresholds for head tilt
+    # Threshold untuk menentukan kemiringan
     tilt_threshold = 15
 
     if angle > tilt_threshold:
-        return "RIGHT"  # Tukar: Sudut positif berarti miring ke kanan
+        return "RIGHT"  # Sudut positif: miring ke kanan
     elif angle < -tilt_threshold:
-        return "LEFT"   # Tukar: Sudut negatif berarti miring ke kiri
+        return "LEFT"   # Sudut negatif: miring ke kiri
     else:
         return "CENTER"
