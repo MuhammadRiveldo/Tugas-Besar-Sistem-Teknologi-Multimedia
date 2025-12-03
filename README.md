@@ -1,4 +1,4 @@
-# Guess The Hero: Edisi Mobile Legends
+# Guess The Hero: Mobile Legends
 ## 🎮 Deskripsi Proyek
 
 **Guess The Hero** adalah sebuah game kuis interaktif berbasis *computer vision* yang menantang pemain untuk menebak nama hero Mobile Legends hanya dari suaranya. Uniknya, game ini tidak memerlukan keyboard atau mouse untuk menjawab. Sebagai gantinya, pemain cukup memiringkan kepala ke kiri atau ke kanan untuk memilih jawaban.
