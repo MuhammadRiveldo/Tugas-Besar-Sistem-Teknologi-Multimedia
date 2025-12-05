@@ -51,6 +51,81 @@ heroes = [
         "name": "Yuzhong",
         "voice": "assets/voices/Yuzhong.mp3",
         "image": "assets/heroes/Yuzhong.jpg"
+    },
+    {
+        "name": "Hilda",
+        "voice": "assets/voices/Hilda.mp3",
+        "image": "assets/heroes/Hilda.jpg"
+    },
+    {
+        "name": "Franco",
+        "voice": "assets/voices/Franco.mp3",
+        "image": "assets/heroes/Franco.jpg"
+    },
+    {
+        "name": "Belerick",
+        "voice": "assets/voices/Belerick.mp3",
+        "image": "assets/heroes/Belerick.jpg"
+    },
+    {
+        "name": "Granger",
+        "voice": "assets/voices/Granger.mp3",
+        "image": "assets/heroes/Granger.jpg"
+    },
+    {
+        "name": "Clint",
+        "voice": "assets/voices/Clint.mp3",
+        "image": "assets/heroes/Clint.jpg"
+    },
+    {
+        "name": "Chang'e",
+        "voice": "assets/voices/Chang'e.mp3",
+        "image": "assets/heroes/Chang'e.jpg"
+    },
+    {
+        "name": "Estes",
+        "voice": "assets/voices/Estes.mp3",
+        "image": "assets/heroes/Estes.jpg"
+    },
+    {
+        "name": "Chou",
+        "voice": "assets/voices/Chou.mp3",
+        "image": "assets/heroes/Chou.jpg"
+    },
+    {
+        "name": "Floryn",
+        "voice": "assets/voices/Floryn.mp3",
+        "image": "assets/heroes/Floryn.jpg"
+    },
+    {
+        "name": "Lapu lapu",
+        "voice": "assets/voices/Lapu lapu.mp3",
+        "image": "assets/heroes/Lapu lapu.jpg"
+    },
+    {
+        "name": "Helcurt",
+        "voice": "assets/voices/Helcurt.mp3",
+        "image": "assets/heroes/Helcurt.jpg"
+    },
+    {
+        "name": "Lancelot",
+        "voice": "assets/voices/Lancelot.mp3",
+        "image": "assets/heroes/Lancelot.jpg"
+    },
+    {
+        "name": "Gord",
+        "voice": "assets/voices/Gord.mp3",
+        "image": "assets/heroes/Gord.jpg"
+    },
+    {
+        "name": "Bane",
+        "voice": "assets/voices/Bane.mp3",
+        "image": "assets/heroes/Bane.jpg"
+    },
+    {
+        "name": "Eudora",
+        "voice": "assets/voices/Eudora.mp3",
+        "image": "assets/heroes/Eudora.jpg"
     }
 ]
 
