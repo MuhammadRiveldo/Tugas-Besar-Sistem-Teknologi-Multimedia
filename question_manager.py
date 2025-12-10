@@ -126,7 +126,83 @@ heroes = [
         "name": "Eudora",
         "voice": "assets/voices/Eudora.mp3",
         "image": "assets/heroes/Eudora.jpg"
+    },
+    {
+        "name": "Layla",
+        "voice": "assets/voices/Layla.mp3",
+        "image": "assets/heroes/Layla.jpg"
+    },
+    {
+        "name": "Ling",
+        "voice": "assets/voices/Ling.mp3",
+        "image": "assets/heroes/Ling.jpg"
+    },
+    {
+        "name": "Lolita",
+        "voice": "assets/voices/Lolita.mp3",
+        "image": "assets/heroes/Lolita.jpg"
+    },
+    {
+        "name": "Minotaur",
+        "voice": "assets/voices/Minotaur.mp3",
+        "image": "assets/heroes/Minotaur.jpg"
+    },
+    {
+        "name": "Mathilda",
+        "voice": "assets/voices/Mathilda.mp3",
+        "image": "assets/heroes/Mathilda.jpg"
+    },
+    {
+        "name": "Miya",
+        "voice": "assets/voices/Miya.mp3",
+        "image": "assets/heroes/Miya.jpg"
+    },
+    {
+        "name": "Moskov",
+        "voice": "assets/voices/Moskov.mp3",
+        "image": "assets/heroes/Moskov.jpg"
+    },
+    {
+        "name": "Nana",
+        "voice": "assets/voices/Nana.mp3",
+        "image": "assets/heroes/Nana.jpg"
+    },
+    {
+        "name": "Odette",
+        "voice": "assets/voices/Odette.mp3",
+        "image": "assets/heroes/Odette.jpg"
+    },
+    {
+        "name": "Rafaela",
+        "voice": "assets/voices/Rafaela.mp3",
+        "image": "assets/heroes/Rafaela.jpg"
+    },
+    {
+        "name": "Saber",
+        "voice": "assets/voices/Saber.mp3",
+        "image": "assets/heroes/Saber.jpg"
+    },
+    {
+        "name": "Selena",
+        "voice": "assets/voices/Selena.mp3",
+        "image": "assets/heroes/Selena.jpg"
+    },
+    {
+        "name": "Sun",
+        "voice": "assets/voices/Sun.mp3",
+        "image": "assets/heroes/Sun.jpg"
+    },
+    {
+        "name": "Thamuz",
+        "voice": "assets/voices/Thamuz.mp3",
+        "image": "assets/heroes/Thamuz.jpg"
+    },
+    {
+        "name": "Zilong",
+        "voice": "assets/voices/Zilong.mp3",
+        "image": "assets/heroes/Zilong.jpg"
     }
+    
 ]
 
 # Daftar hero yang tersedia untuk pertanyaan, diacak
