@@ -70,5 +70,8 @@ python main.py
 5.  Setelah 5 pertanyaan, skor akhir dan waktu bermain akan ditampilkan.
 6.  Tekan tombol **Spasi** untuk bermain lagi atau **Esc** untuk keluar.
 
+## Link Demo
+[Link Percobaan Game](https://drive.google.com/file/d/16BN_I1dFnxAERXDs6cSxPX6G5bihTJ5t/view?usp=drivesdk)
+
 ---
 *Proyek ini dibuat untuk memenuhi Tugas Besar mata kuliah Sistem Teknologi Multimedia.*
