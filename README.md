@@ -57,7 +57,7 @@ pip install -r requirements.txt
 ```
 
 **4. Jalankan Program**
-Untuk memulai game, jalankan file `main.py`.
+Untuk memulai game, jalankan file `main.py`
 ```bash
 python main.py
 ```
