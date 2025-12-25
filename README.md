@@ -17,7 +17,7 @@ Proyek ini merupakan implementasi dari berbagai teknologi multimedia, menggabung
 | Nama Lengkap      | NIM        | ID GitHub         |
 | ----------------- | ---------- | ----------------- |
 | **[Muhammad Riveldo Hermawan Putra]**   | **[122140037]** | **[MuhammadRiveldo]** |
-| **[Joshia Fernandes Sectio Purba]**| **[122140171]**| **[Joshia05]**|
+| **[Joshia Fernandes Sectio Purba]**| **[122140170]**| **[Joshia05]**|
 | **[Bayu Praneswara Haris]**| **[122140219]**| **[WindBard5]**|
 
 ## 📖 Logbook Proyek
